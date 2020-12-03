@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cnhqd.mapper.DocumentMapper">
+
+    <resultMap type="com.cnhqd.entity.Document" id="DocumentMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="project" column="project" jdbcType="VARCHAR"/>
+        <result property="url" column="url" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="secret" column="secret" jdbcType="VARCHAR"/>
+        <result property="parentMenuId" column="parent_menu_id" jdbcType="INTEGER"/>
+        <result property="childMenuId" column="child_menu_id" jdbcType="INTEGER"/>
+        <result property="author" column="author" jdbcType="VARCHAR"/>
+        <result property="creator" column="creator" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="DocumentMap">
+        select
+          id, name, project, url, description, secret, parent_menu_id, child_menu_id, author, creator, create_time, update_time
+        from smart_ops.document
+        where id = #{id}
+    </select>
+
+    <select id="countByQuery" parameterType="com.cnhqd.query.DocumentQuery" resultType="java.lang.Integer">
+        select count(1)
+        from document
+        <where>
+            <if test="childMenuId != null">
+                child_menu_id = #{childMenuId,jdbcType=BIGINT}
+            </if>
+            <if test="name != null and name !=''">
+                AND `name` LIKE LOWER(concat('%', #{name,jdbcType=VARCHAR}, '%'))
+            </if>
+            <if test="secret != null and secret !=''">
+                AND `secret` = #{secret,jdbcType=VARCHAR}
+            </if>
+            <if test="startTime != null and stopTime !=''">
+                AND  DATE_FORMAT(create_time, '%Y-%m-%d') BETWEEN #{startTime,jdbcType=VARCHAR} AND #{stopTime,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByQuery" parameterType="com.cnhqd.query.DocumentQuery" resultType="com.cnhqd.vo.DocumentVo">
+        select
+        id, `name`, project, url, description, secret, parent_menu_id, child_menu_id, author, creator, create_time, update_time
+        from document
+        <where>
+            <if test="childMenuId != null">
+                child_menu_id = #{childMenuId,jdbcType=BIGINT}
+            </if>
+            <if test="name != null and name !=''">
+                AND `name` LIKE LOWER(concat('%', #{name,jdbcType=VARCHAR}, '%'))
+            </if>
+            <if test="secret != null and secret !=''">
+                AND `secret` = #{secret,jdbcType=VARCHAR}
+            </if>
+            <if test="startTime != null and stopTime !=''">
+                AND  DATE_FORMAT(create_time, '%Y-%m-%d') BETWEEN #{startTime,jdbcType=VARCHAR} AND #{stopTime,jdbcType=VARCHAR}
+            </if>
+        </where>
+        ORDER BY `create_time` DESC
+        <if test="pageParameter != null">
+            limit #{pageParameter.offset},#{pageParameter.pageSize}
+        </if>
+    </select>
+
+
+</mapper>

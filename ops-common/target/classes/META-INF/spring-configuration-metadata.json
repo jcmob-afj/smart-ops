@@ -1,0 +1,23 @@
+{
+  "groups": [
+    {
+      "name": "ops",
+      "type": "com.cnhqd.properties.OpsProperties",
+      "sourceType": "com.cnhqd.properties.OpsProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "ops.max-batch-insert-num",
+      "type": "java.lang.Integer",
+      "sourceType": "com.cnhqd.properties.OpsProperties",
+      "defaultValue": 1000
+    },
+    {
+      "name": "ops.swagger",
+      "type": "com.cnhqd.properties.SwaggerProperties",
+      "sourceType": "com.cnhqd.properties.OpsProperties"
+    }
+  ],
+  "hints": []
+}

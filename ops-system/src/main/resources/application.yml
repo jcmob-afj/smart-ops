@@ -1,0 +1,38 @@
+server:
+  port: 10010
+  tomcat:
+    uri-encoding: utf-8
+  error:
+    include-exception: true
+    include-message: always
+
+spring:
+  profiles:
+    active: dev
+
+
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+
+  thymeleaf:
+    cache: false
+
+  aop:
+    proxy-target-class: true
+
+mybatis-plus:
+  type-aliases-package: com.cnhqd.entity
+  mapper-locations: classpath:mapper/*.xml
+
+
+
+logging:
+  level:
+    com:
+      baomidou:
+        mybatisplus:
+          core:
+            metadata:
+              TableInfoHelper: error
